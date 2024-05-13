@@ -1,4 +1,5 @@
-import { Card, mapping } from "./stuff";
+import { given } from 'flooent';
+import { Card, mapping } from './stuff';
 
 export const getHighest = (cards: Card[]): Card[] => {
   return [getSorted(cards).reverse()[0]];
@@ -13,7 +14,7 @@ export const getSorted = (cards: Card[]): Card[] => {
 export const isStraight = (cards: Card[]) => {
   // @ts-ignore
   const sorted = getSorted(cards).map((c) => mapping[c.hand]);
-  if ("234567891011121314".includes(String(sorted.join("")))) {
+  if ('234567891011121314'.includes(String(sorted.join('')))) {
     return true;
   }
   return false;
@@ -23,16 +24,27 @@ export const isFlush = (cards: Card[]) => {
   return new Set(cards.map((c) => c.types)).size === 1;
 };
 
-export const getPairs = (cards: Card[]) => {
-  const sorted = getSorted(cards);
-  let pairs_count = 0;
-  let valid = [];
-  for (let i = 0; i < sorted.length; i++) {
-    if (sorted[i].hand === sorted[i - 1]?.hand) {
-      pairs_count++;
-      valid.push(sorted[i]);
-      valid.push(sorted[i - 1]);
+export const getSimilar = (cards: Card[]) => {
+  const grouped = given.array(cards).groupBy('hand');
+
+  let valid: Card[] = [];
+  let quads = 0;
+  let triplets = 0;
+  let pairs = 0;
+  grouped.entries().forEach(([key, arr]) => {
+    if (arr.length === 4) {
+      quads++;
+      valid = [...arr];
     }
-  }
-  return { pairs: pairs_count, valid };
+    if (arr.length === 3) {
+      triplets++;
+      valid = [...arr];
+    }
+    if (arr.length === 2) {
+      pairs++;
+      valid = valid.concat([...arr]);
+    }
+  });
+
+  return { pairs, triplets, quads, valid };
 };

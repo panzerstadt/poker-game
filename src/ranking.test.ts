@@ -1,7 +1,7 @@
 import { calculate } from './ranking';
 
 describe('ranking calculation', () => {
-  it('identifies Royal Flush', () => {
+  it('identifies Straight Flush', () => {
     const { handRank, cards } = calculate([
       { types: 'clubs', hand: 'K' },
       { types: 'clubs', hand: 'Q' },
@@ -10,7 +10,31 @@ describe('ranking calculation', () => {
       { types: 'clubs', hand: '9' },
     ]);
 
-    expect(handRank).toBe('Royal Flush');
+    expect(handRank).toBe('Straight Flush');
+    expect(cards.length).toBe(5);
+  });
+  it('identifies Four of a Kind', () => {
+    const { handRank, cards } = calculate([
+      { types: 'hearts', hand: 'Q' },
+      { types: 'clubs', hand: 'Q' },
+      { types: 'diamonds', hand: 'Q' },
+      { types: 'spades', hand: 'Q' },
+      { types: 'clubs', hand: '9' },
+    ]);
+
+    expect(handRank).toBe('Four of a Kind');
+    expect(cards.length).toBe(4);
+  });
+  it('identifies Full House', () => {
+    const { handRank, cards } = calculate([
+      { types: 'clubs', hand: 'K' },
+      { types: 'diamonds', hand: 'K' },
+      { types: 'spades', hand: 'K' },
+      { types: 'diamonds', hand: '10' },
+      { types: 'clubs', hand: '10' },
+    ]);
+
+    expect(handRank).toBe('Full House');
     expect(cards.length).toBe(5);
   });
   it('identifies Flush', () => {
@@ -36,6 +60,18 @@ describe('ranking calculation', () => {
 
     expect(handRank).toBe('Straight');
     expect(cards.length).toBe(5);
+  });
+  it('identifies Three of a Kind', () => {
+    const { handRank, cards } = calculate([
+      { types: 'hearts', hand: 'Q' },
+      { types: 'clubs', hand: 'Q' },
+      { types: 'spades', hand: '10' },
+      { types: 'clubs', hand: 'Q' },
+      { types: 'clubs', hand: '9' },
+    ]);
+
+    expect(handRank).toBe('Three of a Kind');
+    expect(cards.length).toBe(3);
   });
   it('identifies Two Pair', () => {
     const { handRank, cards } = calculate([
