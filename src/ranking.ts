@@ -1,7 +1,7 @@
-import { getHighest, getSimilar } from './ranking-utils';
+import { getHighest, getScore, getSimilar } from './ranking-utils';
 import { isStraight } from './ranking-utils';
 import { isFlush } from './ranking-utils';
-import { Card } from './stuff';
+import { Card, HAND_RANK } from './stuff';
 
 export const calculate = (cards: Card[]) => {
   if (cards.length !== 5) {
@@ -13,33 +13,70 @@ export const calculate = (cards: Card[]) => {
   if (isFlush(cards) && isStraight(cards)) {
     // royal flush = flush and highest possible straight <-- skip for now
     // straight flush = flush and straight
-    return { handRank: 'Straight Flush', cards: cards };
+    return {
+      handRank: HAND_RANK.SFLUSH,
+      cards: cards,
+      score: getScore(cards, HAND_RANK.SFLUSH),
+    };
   }
   // 4
   if (pairsChk.quads === 1) {
-    return { handRank: 'Four of a Kind', cards: pairsChk.valid };
+    return {
+      handRank: HAND_RANK.FKIND,
+      cards: pairsChk.valid,
+      score: getScore(pairsChk.valid, HAND_RANK.FKIND),
+    };
   }
   // 5
   if (pairsChk.triplets === 1 && pairsChk.pairs === 1) {
-    return { handRank: 'Full House', cards: pairsChk.valid };
+    return {
+      handRank: HAND_RANK.FHOUSE,
+      cards: pairsChk.valid,
+      score: getScore(cards, HAND_RANK.FHOUSE),
+    };
   }
   if (isFlush(cards)) {
-    return { handRank: 'Flush', cards: cards };
+    return {
+      handRank: HAND_RANK.FLUSH,
+      cards: cards,
+      score: getScore(cards, HAND_RANK.FLUSH),
+    };
   }
   if (isStraight(cards)) {
-    return { handRank: 'Straight', cards: cards };
+    return {
+      handRank: HAND_RANK.STRAIGHT,
+      cards: cards,
+      score: getScore(cards, HAND_RANK.STRAIGHT),
+    };
   }
   if (pairsChk.triplets === 1) {
-    return { handRank: 'Three of a Kind', cards: pairsChk.valid };
+    return {
+      handRank: HAND_RANK.THREE,
+      cards: pairsChk.valid,
+      score: getScore(pairsChk.valid, HAND_RANK.THREE),
+    };
   }
   if (pairsChk.pairs === 2) {
-    return { handRank: 'Two Pair', cards: pairsChk.valid };
+    return {
+      handRank: HAND_RANK.TWO,
+      cards: pairsChk.valid,
+      score: getScore(pairsChk.valid, HAND_RANK.TWO),
+    };
   }
 
   if (pairsChk.pairs === 1) {
-    return { handRank: 'Pair', cards: pairsChk.valid };
+    return {
+      handRank: HAND_RANK.PAIR,
+      cards: pairsChk.valid,
+      score: getScore(pairsChk.valid, HAND_RANK.PAIR),
+    };
   }
 
   // 1 card
-  return { handRank: 'High', cards: getHighest(cards) };
+  const highest = getHighest(cards);
+  return {
+    handRank: HAND_RANK.HIGH,
+    cards: highest,
+    score: getScore(highest, HAND_RANK.HIGH),
+  };
 };

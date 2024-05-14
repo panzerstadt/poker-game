@@ -1,5 +1,11 @@
 import { given } from 'flooent';
-import { Card, mapping } from './stuff';
+import {
+  Card,
+  HAND_RANK,
+  handScoreMapping,
+  mapping,
+  validCardScoresMapping,
+} from './stuff';
 
 export const getHighest = (cards: Card[]): Card[] => {
   return [getSorted(cards).reverse()[0]];
@@ -47,4 +53,9 @@ export const getSimilar = (cards: Card[]) => {
   });
 
   return { pairs, triplets, quads, valid };
+};
+
+export const getScore = (cards: Card[], handRank: HAND_RANK) => {
+  // @ts-ignore
+  return cards.map((c) => validCardScoresMapping[c.hand]).reduce((a, b) => a + b) + handScoreMapping[handRank]; // prettier-ignore
 };
