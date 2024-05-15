@@ -4,9 +4,6 @@ import { isFlush } from './ranking-utils';
 import { Card, HAND_RANK } from './stuff';
 
 export const calculate = (cards: Card[]) => {
-  if (cards.length !== 5) {
-    throw new Error('we expect 5 cards in hand');
-  }
   const pairsChk = getSimilar(cards);
 
   // 5 cards

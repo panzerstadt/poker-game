@@ -18,6 +18,7 @@ export const getSorted = (cards: Card[]): Card[] => {
 
 // https://stackoverflow.com/questions/54954713/check-if-the-digits-in-the-number-are-in-increasing-sequence-in-python
 export const isStraight = (cards: Card[]) => {
+  if (cards.length !== 5) return false;
   // @ts-ignore
   const sorted = getSorted(cards).map((c) => mapping[c.hand]);
   if ('234567891011121314'.includes(String(sorted.join('')))) {
@@ -27,6 +28,7 @@ export const isStraight = (cards: Card[]) => {
 };
 
 export const isFlush = (cards: Card[]) => {
+  if (cards.length !== 5) return false;
   return new Set(cards.map((c) => c.types)).size === 1;
 };
 

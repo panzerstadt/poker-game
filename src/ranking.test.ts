@@ -122,4 +122,53 @@ describe('ranking calculation', () => {
     expect(cards.length).toBe(1);
     expect(score).toBe(10); // high = 0 + 10
   });
+
+  describe('edge cases', () => {
+    it('identifies Four of a Kind when 4 cards are played', () => {
+      const { handRank, cards, score } = calculate([
+        { types: 'hearts', hand: 'Q' },
+        { types: 'clubs', hand: 'Q' },
+        { types: 'diamonds', hand: 'Q' },
+        { types: 'spades', hand: 'Q' },
+      ]);
+
+      expect(handRank).toBe('Four of a Kind');
+      expect(cards.length).toBe(4);
+      expect(score).toBe(110); // four = 70 + 10 + 10 + 10 + 10
+    });
+    it('identifies High when 4 cards are played', () => {
+      const { handRank, cards, score } = calculate([
+        { types: 'hearts', hand: 'Q' },
+        { types: 'hearts', hand: 'J' },
+        { types: 'hearts', hand: 'K' },
+        { types: 'hearts', hand: '5' },
+      ]);
+
+      expect(handRank).toBe('High');
+      expect(cards.length).toBe(1);
+      expect(score).toBe(10); // high = 0 + 10
+    });
+    it('identifies Two Pair when 4 cards are played', () => {
+      const { handRank, cards, score } = calculate([
+        { types: 'hearts', hand: 'Q' },
+        { types: 'clubs', hand: 'Q' },
+        { types: 'spades', hand: '10' },
+        { types: 'clubs', hand: '10' },
+      ]);
+
+      expect(handRank).toBe('Two Pair');
+      expect(cards.length).toBe(4);
+      expect(score).toBe(60); // two pair = 20 + 10 + 10 + 10 + 10
+    });
+    it('identifies Pair when 2 cards are played', () => {
+      const { handRank, cards, score } = calculate([
+        { types: 'spades', hand: '10' },
+        { types: 'clubs', hand: '10' },
+      ]);
+
+      expect(handRank).toBe('Pair');
+      expect(cards.length).toBe(2);
+      expect(score).toBe(30); // pair = 10 + 10 + 10
+    });
+  });
 });
