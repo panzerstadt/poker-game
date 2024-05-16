@@ -1,8 +1,4 @@
 import { calculate } from './ranking';
-// TODO: also consider edge cases: in this version of poker, you don't have to play all five cards,
-// you can also just play 2 or 4. Is your flush check still working?
-// add a test to verify your flush doesnt work if you only play four cards
-// but pair, etc. should work
 
 describe('ranking calculation', () => {
   it('identifies and scores Straight Flush', () => {
