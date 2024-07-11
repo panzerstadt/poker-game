@@ -18,8 +18,8 @@ export const getSorted = (cards: Card[]): Card[] => {
 
 // https://stackoverflow.com/questions/54954713/check-if-the-digits-in-the-number-are-in-increasing-sequence-in-python
 export const isStraight = (cards: Card[]) => {
-  if (cards.length !== 5) return false;
-  // @ts-ignore
+  if (cards.length !== 5) return false; // validate
+  // @ts-ignore (calculate)
   const sorted = getSorted(cards).map((c) => mapping[c.hand]);
   if ('234567891011121314'.includes(String(sorted.join('')))) {
     return true;
@@ -27,9 +27,17 @@ export const isStraight = (cards: Card[]) => {
   return false;
 };
 
+export const isClassifiedflush =
+  (classifiers: { type: 'rule' | 'hand'; value: any }[]) => (cards: Card[]) => {
+    // validate
+    // apply rule classifiers
+    // (loop) calculate -> card score classifiers
+    // apply hand score classifiers
+  };
+
 export const isFlush = (cards: Card[]) => {
-  if (cards.length !== 5) return false;
-  return new Set(cards.map((c) => c.types)).size === 1;
+  if (cards.length !== 5) return false; // validate
+  return new Set(cards.map((c) => c.types)).size === 1; // calculate
 };
 
 export const getSimilar = (cards: Card[]) => {
