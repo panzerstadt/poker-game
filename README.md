@@ -1,8 +1,21 @@
 ### tasks
 
-1. categorize classifiers
-2. data structure
-3. classifier ordering
+1. categorize classifiers -> DONE
+
+- card modifiers (priority 0)
+- rule modifiers (priority 1) -> changing rules
+- score modifiers (priority 2) -> modifying scores
+  - card scores
+  - hand scores
+
+2. data structure -> how are we storing the game state / variables
+3. classifier ordering -> DONE
+
+### tasks
+
+- from AS IS to modifier support
+
+-
 
 ### legends
 

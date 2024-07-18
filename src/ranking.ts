@@ -4,10 +4,26 @@ import { isFlush } from './ranking-utils';
 import { Card, HAND_RANK } from './stuff';
 
 export const calculate = (cards: Card[]) => {
+  // 1. card modifiers
+  // 2. rule modifiers
+
+  // rule modifier added to flush
+  const flushCB = (cards) => {
+    cards.length === 4;
+  };
+
+  isFlush(flushCB, cards);
+
+  const straightCB = (cards) => {
+    // card length = 4
+    // gap in straight
+  };
+  isStraight(straightCB, cards);
+
   const pairsChk = getSimilar(cards);
 
   // 5 cards
-  if (isFlush(cards) && isStraight(cards)) {
+  if (isFlush(cards, modifier) && isStraight(cards, modifiers)) {
     // royal flush = flush and highest possible straight <-- skip for now
     // straight flush = flush and straight
     return {
